@@ -2,14 +2,24 @@ package com.ravel.cursomc.domain;
 
 import java.io.Serializable;
 
-//classe serializable (Classe que implementa a serializable) para que o objeto possa ser gravado em arquivos
-//exigencia do Java
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+//classe implements serializable (Classe que implementa a serializable) para que o objeto possa ser gravado em arquivos exigencia do Java
+//Entity para criar o banco.
+@Entity
 public class Categoria implements Serializable {
 
 //	geração default
 	private static final long serialVersionUID = 1L;
 	
+	//@Id - significa id
+	//Generated value para informar que é primary key
 	//atributos básicos
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
 	

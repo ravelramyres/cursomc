@@ -8,40 +8,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
-//classe implements serializable (Classe que implementa a serializable) para que o objeto possa ser gravado em arquivos exigencia do Java
-//Entity para criar o banco.
 @Entity
-public class Categoria implements Serializable {
-
-//	geração default
+public class Produto implements Serializable {
+	
 	private static final long serialVersionUID = 1L;
 	
-	//@Id - significa id
-	//Generated value para informar que é primary key
-	//atributos básicos
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private Integer id;
 	private String nome;
+	private Double preco;
 	
-	//Associação com categoria e inicialização (Passo a passo do documento)
-	@ManyToMany(mappedBy="categorias")
-	private List<Produto> produtos = new ArrayList<>();
+	//Join com a tabela muitos pra muitos.
+	@ManyToMany
+	@JoinTable(name="PRODUTO_CATEGORIA",
+			joinColumns = @JoinColumn(name="produto_id"),
+			inverseJoinColumns = @JoinColumn(name="categoria_id")
+	)
+	private List<Categoria> categorias = new ArrayList<>();
 	
-	//Construtor vazio, cria o objeto sem jogar nada aos atributos
-	public Categoria() {
+	public Produto() {
 		
 	}
 
-	public Categoria(Integer id, String nome) {
+	//obs: Categoria ja foi iniciada nao entra no construtor
+	public Produto(Integer id, String nome, Double preco) {
 		super();
 		this.id = id;
 		this.nome = nome;
+		this.preco = preco;
 	}
 
-	//metodos de acesso aos atributos (Gets e setters)
 	public Integer getId() {
 		return id;
 	}
@@ -57,16 +58,23 @@ public class Categoria implements Serializable {
 	public void setNome(String nome) {
 		this.nome = nome;
 	}
-	
-	public List<Produto> getProdutos() {
-		return produtos;
+
+	public Double getPreco() {
+		return preco;
 	}
 
-	public void setProdutos(List<Produto> produtos) {
-		this.produtos = produtos;
+	public void setPreco(Double preco) {
+		this.preco = preco;
 	}
 
-	//hascode e equals **(Dois objetos para serem comparados pelos conteudos e nao ponteiro de memoria)**
+	public List<Categoria> getCategoria() {
+		return categorias;
+	}
+
+	public void setCategorias(List<Categoria> categorias) {
+		this.categorias = categorias;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -83,7 +91,7 @@ public class Categoria implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Categoria other = (Categoria) obj;
+		Produto other = (Produto) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -91,12 +99,7 @@ public class Categoria implements Serializable {
 			return false;
 		return true;
 	}
+	
+	
 
-
-	
-	
-	
-	
-	
-	
 }

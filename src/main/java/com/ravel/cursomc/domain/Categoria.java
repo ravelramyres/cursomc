@@ -10,6 +10,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 //classe implements serializable (Classe que implementa a serializable) para que o objeto possa ser gravado em arquivos exigencia do Java
 //Entity para criar o banco.
 @Entity
@@ -27,6 +29,7 @@ public class Categoria implements Serializable {
 	private String nome;
 	
 	//Associação com categoria e inicialização (Passo a passo do documento)
+	@JsonManagedReference
 	@ManyToMany(mappedBy="categorias")
 	private List<Produto> produtos = new ArrayList<>();
 	
